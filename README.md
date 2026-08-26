@@ -17,9 +17,16 @@ CDS axis        naturalness (codon-pair, rebuilt from 18,963 human CDS)
 UTR axis        N1-methylpseudouridine-conditioned MPRA model
               (36.6万 50-nt 5'UTRs, held-out Spearman 0.706)
 
-Design loop     greedy synonymous refinement -> diversity Top-K selection
-              -> surgical self-complementarity repair (dsRNA-risk aware)
+Design loop     independent start pool (DNA Chisel MIT + Ensembl native
+              CDS + our CAI-max) -> greedy synonymous refinement
+              (composite v2) -> surgical self-complementarity repair
+              -> diversity Top-K deliverable
 ```
+
+The start pool carries **zero GEMORNA / LinearDesign lineage** — every
+candidate is generated from fully-open sources (MIT tool, open data, our
+own generator), so deliverables are commercially redistributable under
+Apache-2.0.
 
 ## Repo layout
 
@@ -41,6 +48,7 @@ conda create -n mrna python=3.10
 conda activate mrna
 conda install -c conda-forge viennarna
 pip install numpy pandas scikit-learn joblib
+pip install dnachisel          # MIT start generator
 
 # 2. score a CDS (composite v2)
 python - <<'PY'
@@ -51,10 +59,10 @@ seq = "ATGGAA..."   # your CDS (DNA, multiple of 3)
 print("composite v2 = %.2f" % composite(seq, table, codon_coef, models)[0])
 PY
 
-# 3. full pipeline from any start sequence
-python refine_t5.py            # greedy refinement (reads github/LinearDesign-main/ld_outputs if present)
-python select_topk.py          # diversity Top-K over pools
-python repair_selfcomp.py      # surgical dsRNA-risk repair (Plan C)
+# 3. independent deliverable pipeline (no GEMORNA/LD lineage)
+python start_pool.py              # 3-source start pool (dnachisel/native/cai)
+python pipeline_independent.py    # refine (composite v2) + selfcomp repair
+python select_deliverable.py      # diversity Top-K deliverable
 ```
 
 ## External validation (honest boundaries)
