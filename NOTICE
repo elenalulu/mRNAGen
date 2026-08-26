@@ -1,0 +1,57 @@
+mRNAGen — third-party notices and data provenance
+==================================================
+
+This project is licensed under the Apache License 2.0 (see LICENSE). The
+following components, data sets, and upstream works are referenced or used
+by this repository. Their respective terms are reproduced here in good
+faith; consult the original sources for authoritative wording.
+
+Code / runtime dependencies (NOT bundled, declared as dependencies)
+-------------------------------------------------------------------
+- ViennaRNA 2.x (GPL-2.0-or-later). Used at runtime through its Python
+  bindings for MFE / partition-function structure features. This
+  repository imports the library but does not contain or redistribute it.
+- scikit-learn (BSD-3-Clause), pandas (BSD-3-Clause), numpy (BSD-3-Clause),
+  joblib (BSD-3-Clause): model training / inference dependencies.
+
+Data redistributed in this repository
+-------------------------------------
+- codon_usage_freq_table_human.csv — human codon usage frequencies,
+  derived from the Kazusa Codon Usage Database (Homo sapiens). The file
+  was originally obtained via the LinearDesign distribution
+  (Nature 2023); Kazusa codon usage data is freely usable with
+  attribution.
+- models/composite_v2_stats.pkl — codon-pair statistics built from human
+  CDS extracted from Ensembl GRCh38 (freely redistributable data).
+- models/oracle_v0_*.joblib, models/utr_m1psi_gbdt.joblib — model weights
+  trained in this project on the public data listed below.
+
+Data used for training / validation (NOT redistributed; fetch scripts in
+scripts/fetch_upstream_data.sh)
+---------------------------------
+- Wu et al. 2019, eLife (CC-BY 4.0), fig1-data2 — per-codon optimization
+  coefficients (293T/HeLa/RPE/ORFome/K562 experiments).
+- PaxDB — integrated protein abundance (CC-BY-SA 4.0).
+- Ensembl GRCh38 — CDS/peptide sequences (freely redistributable).
+- Bazzini et al. 2016, Science SI — poly(A)-tail / translation data.
+- Sample et al. 2019, Nature Biotechnology, GEO GSE114002 — MPRA
+  5'UTR expression data (m1psi / unmod conditions).
+- GEMORNA, Science 2025, supplementary data S1-S4 — external
+  wet-lab validation set and benchmark baseline.
+
+Upstream tools used as benchmarks (NOT included; their terms)
+-------------------------------------------------------------
+- GEMORNA (Science 2025). Licensed for non-commercial research use only;
+  commercial use and redistribution of its software, outputs, or derived
+  sequences require written permission from the authors
+  (caojicong@rainabio.com). This repository does not contain GEMORNA code,
+  checkpoints, or generated sequences.
+- LinearDesign (Nature 2023). Free for academic use; redistribution of its
+  code requires written permission from the lead corresponding author;
+  commercial use requires a license. This repository does not contain
+  LinearDesign code or generated sequences.
+
+Important: the candidate sequences in upstream tool outputs, and sequences
+derived from them (e.g. by synonymous refinement), are governed by the
+terms above. Deliverables in this repository are limited to sequences that
+are independently generated from public protein/CDS sources.

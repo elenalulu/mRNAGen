@@ -1,0 +1,22 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# large / upstream data — never commit; use scripts/fetch_upstream_data.sh
+data/t2/
+!data/t2/wu2019_elifescience/
+data/t2/wu2019_elifescience/*
+!data/t2/wu2019_elifescience/elife-45396-fig1-data2.csv
+data/t3_utr/
+data/t3_gemorna_si/
+data/t5/
+data/t4_cro/
+data/*_features.tsv
+data/ld_baseline_features.tsv
+
+# closed negative-result experiment (RNA-FM fine-tuning, 398MB model)
+rnafm_ft/
+
+# notebooks / scratch
+*.ipynb_checkpoints/
+scratch/
