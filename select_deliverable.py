@@ -95,6 +95,10 @@ def select_topk(df_rows, table, k=K, alpha=ALPHA):
 
 
 def main():
+    # fixed seed -> reproducible Top-K selection
+    import random, numpy as np
+    random.seed(0)
+    np.random.seed(0)
     table = get_default_table()
     with open(os.path.join(OUT, "independent_candidates.tsv"),
               encoding="utf-8") as f:

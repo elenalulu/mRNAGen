@@ -115,6 +115,10 @@ def save_results(out):
 
 
 def main():
+    # fixed seed -> reproducible starts (dnachisel uses np.random internally)
+    import random, numpy as np
+    random.seed(0)
+    np.random.seed(0)
     table = get_default_table()
     out = []
     benchmark = os.path.join(HERE, "data", "proteins", "benchmark")

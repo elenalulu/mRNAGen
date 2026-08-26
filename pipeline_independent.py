@@ -49,6 +49,10 @@ def save_results(out):
 
 
 def main():
+    # fixed seed -> reproducible refinement
+    import random, numpy as np
+    random.seed(0)
+    np.random.seed(0)
     t, codon_coef, syn, models = load_env()
     scorer = Scorer()
     cmap = aa_codon_map(t)
