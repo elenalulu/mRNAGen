@@ -57,18 +57,6 @@ computed with our metric stack on each engine's benchmark candidates.
 tRNA adaptation (tAI) is not evaluated — CAI serves as the codon-usage
 preference proxy; computing tAI would require tRNA copy-number data.
 
-## Repo layout
-
-```
-*.py                     pipeline scripts (see docs/architecture.md)
-feature_pipeline/        features: codon metrics, structure (ViennaRNA), rules
-models/                  trained weights (scoring z-stats, UTR GBDT, legacy learned models)
-data/proteins/           example target proteins (public sequences)
-data/                    large/upstream data is NOT bundled — see fetch script
-scripts/fetch_upstream_data.sh   download data + benchmark baselines
-docs/                    reports
-```
-
 ## Quick start
 
 ```bash
