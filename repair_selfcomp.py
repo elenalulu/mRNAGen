@@ -9,7 +9,7 @@ duplex arms. Greedy accept if ALL gates hold vs the PRE-REPAIR baseline:
 
   gates (vs pre-repair sequence):
     - global selfcomp_max_near strictly decreases (vs current)
-    - composite v2 >= baseline - 0.10
+    - design score >= baseline - 0.10
     - z_nat        >= baseline - 0.05
     - CAI          >= baseline - 0.005
     - restriction sites / hp5 runs do not increase
@@ -170,7 +170,7 @@ def translate(seq, table):
 
 
 def metrics(seq, table, scorer):
-    """Composite v2 (same formula as refine_t5.score_batch, v2 branch)."""
+    """Design score (same formula as refine_t5.score_batch, v2 branch)."""
     z_nat = float(scorer.z_nat([seq])[0])
     cai = table.cai(seq.replace("T", "U"))
     z_cai = float(scorer.z_cai([cai])[0])

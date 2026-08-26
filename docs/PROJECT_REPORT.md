@@ -11,7 +11,7 @@
 
 | 资产 | 位置 | 验证状态 |
 |---|---|---|
-| CDS 设计引擎（composite v2） | `mRNAGen/refine_t5.py` + `naturalness.py` | S3 外部验证（见 §3） |
+| CDS 设计引擎（设计分） | `mRNAGen/refine_t5.py` + `naturalness.py` | S3 外部验证（见 §3） |
 | Top-K v3 交付集（14 蛋白 × 5） | `data/t5/topk_selection.tsv` | 70/70 翻译正确 + 唯一 |
 | m1ψ UTR 打分器（held-out ρ=0.706） | `models/utr_m1psi_gbdt.joblib` | MPRA 36.6 万条训练 + designed 独立库 0.73 |
 | UTR 短名单（10 条实测高 MRL） | `data/t3_utr/utr_shortlist.tsv` | 实测 m1ψ MRL 7.8-9.2，汉明距离 ≥36/50 |
@@ -27,7 +27,7 @@
           （含 m1ψ）│ GEMORNA Science S1-S4（67 条同蛋白湿实验标签）
 特征层    naturalness（密码子对频率，开源重建）│ CAI（逐行复刻 LinearDesign
           口径，ρ=1.000 复验）│ ViennaRNA 结构 │ 制造规则（酶切位点/同聚物/GC）
-模型层    composite v2 = z(nat)+z(CAI)−合规惩罚  ← 外部验证的设计目标
+模型层    设计分 = z(nat)+z(CAI)−合规惩罚  ← 外部验证的设计目标
           m1ψ UTR GBDT（丰度过滤 top-50%，ρ=0.706，天花板 ~0.88）
           oracle v0（GBDT，仅作诊断——蛋白内不迁移，见 §5）
 搜索层    贪心同义替换（r25，批量预测 8× 加速）│ Top-K max-min 多样性选择
@@ -87,7 +87,7 @@ PABPv3 > hHBB (89.8%) > **mRNA-1273 (81.2%) > BNT162b2 (72.4%)**。
 
 ## 5. 诚实边界（对外表述纪律）
 
-1. composite v2 的排序依据（nat+CAI）在 S3 验证均值 0.63，非完美；
+1. 设计分 的排序依据（nat+CAI）在 S3 验证均值 0.63，非完美；
    S3 已用作 dev set，新设计的盲验证依赖湿实验。
 2. UTR×CDS 交互（scanning 偶联）未建模；组合分为加性假设。
 3. UTR 模型 50nt 定长，非 50nt UTR 打分为方向性。

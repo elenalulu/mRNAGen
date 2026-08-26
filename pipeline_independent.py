@@ -5,7 +5,7 @@
 Reads data/deliverable/start_pool.tsv (DNA Chisel + Ensembl native +
 our CAI-max starts; see start_pool.py) and, for every start, runs:
 
-  1. greedy refinement on composite v2 (25 rounds, our objective)
+  1. greedy refinement on design score (25 rounds, our objective)
   2. surgical self-complementarity repair (Plan C, gates preserved)
 
 Output: data/deliverable/independent_candidates.tsv

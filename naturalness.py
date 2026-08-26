@@ -5,7 +5,7 @@ Rebuilt (not copied) from GEMORNA's strongest external signal: a sequence's
 similarity to natural human coding context predicts expression/stability
 better than any other feature we tested (S3 external validation, 2026-08-25).
 
-composite v2 = z_global(naturalness) + z_global(CAI) - manufacturing
+design score = z_global(naturalness) + z_global(CAI) - manufacturing
 penalties. Global z-stats are computed against the 18,963 endogenous CDS
 corpus so scores are comparable across sequences, pools and runs.
 

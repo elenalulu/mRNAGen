@@ -2,7 +2,7 @@
 
 ## Objective
 
-`composite v2 = z_global(naturalness) + z_global(CAI) - manufacturing
+`design score = z_global(naturalness) + z_global(CAI) - manufacturing
 penalties`
 
 - naturalness: codon-pair log-likelihood vs 18,963 endogenous human CDS
@@ -28,7 +28,7 @@ start_pool.py
   cai        CAI-max start from the Kazusa table (our own generator)
 
 pipeline_independent.py
-  every start -> greedy refinement (composite v2, 25 rounds)
+  every start -> greedy refinement (design score, 25 rounds)
               -> surgical self-comp repair (Plan C gates)
 
 select_deliverable.py

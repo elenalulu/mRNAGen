@@ -165,7 +165,7 @@ def feature_vec(cds, table, codon_coef):
 
 
 def score_batch(seqs, table, codon_coef, models):
-    """Batch scoring. Composite v2 (default, externally validated on
+    """Batch scoring. Design score (default, externally validated on
     GEMORNA Science S3, 2026-08-25):
         z_global(naturalness) + z_global(CAI) - manufacturing penalties
     The oracle expr/decay heads proved non-transferable within-protein

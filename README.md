@@ -12,14 +12,14 @@ expression predictor.
 CDS axis        naturalness (codon-pair, rebuilt from 18,963 human CDS)
               + CAI (human codon-usage)
               - manufacturing penalties (restriction sites / hp4 / hp5 / GC)
-              => composite v2, externally validated (S3, mean Spearman ~0.63)
+              => design score, externally validated (S3, mean Spearman ~0.63)
 
 UTR axis        N1-methylpseudouridine-conditioned MPRA model
               (366k 50-nt 5'UTRs, held-out Spearman 0.706)
 
 Design loop     independent start pool (DNA Chisel MIT + Ensembl native
               CDS + our CAI-max) -> greedy synonymous refinement
-              (composite v2) -> surgical self-complementarity repair
+              (design score) -> surgical self-complementarity repair
               -> diversity Top-K deliverable
 ```
 
@@ -31,14 +31,14 @@ Apache-2.0.
 ## Comparison with published baselines
 
 Benchmark candidates from GEMORNA (Science 2025) and LinearDesign
-(Nature 2023) were scored with our composite v2 metrics on the same
+(Nature 2023) were scored with our design score metrics on the same
 14 protein targets; the mRNAGen column is our independent deliverable
 (35 candidates). Higher z_nat / CAI is better; lower selfcomp is better
 (dsRNA risk); "clean" = 0 restriction sites and no homopolymer run >= 5.
 
 | Aspect | mRNAGen (this work) | GEMORNA | LinearDesign |
 |---|---|---|---|
-| Design objective | naturalness + CAI - manufacturing penalties (composite v2) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
+| Design objective | naturalness + CAI - manufacturing penalties (design score) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
 | 5'UTR model | N1-psi-conditioned MPRA, 366k 5'UTRs, held-out rho = 0.706 | — | — |
 | Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
 | naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
@@ -58,7 +58,7 @@ computed with our metric stack on each engine's benchmark candidates.
 ```
 *.py                     pipeline scripts (see docs/architecture.md)
 feature_pipeline/        features: codon metrics, structure (ViennaRNA), rules
-models/                  trained weights (composite v2 stats, oracle v0, UTR GBDT)
+models/                  trained weights (scoring z-stats, oracle v0, UTR GBDT)
 data/proteins/           example target proteins (public sequences)
 data/                    large/upstream data is NOT bundled — see fetch script
 scripts/fetch_upstream_data.sh   download data + benchmark baselines
@@ -75,18 +75,18 @@ conda install -c conda-forge viennarna
 pip install numpy pandas scikit-learn joblib
 pip install dnachisel          # MIT start generator
 
-# 2. score a CDS (composite v2)
+# 2. score a CDS (design score)
 python - <<'PY'
 import sys; sys.path.insert(0, ".")
 from refine_t5 import load_env, composite
 table, codon_coef, syn, models = load_env()
 seq = "ATGGAA..."   # your CDS (DNA, multiple of 3)
-print("composite v2 = %.2f" % composite(seq, table, codon_coef, models)[0])
+print("design score = %.2f" % composite(seq, table, codon_coef, models)[0])
 PY
 
 # 3. independent deliverable pipeline (fully independent start sources)
 python start_pool.py              # 3-source start pool (dnachisel/native/cai)
-python pipeline_independent.py    # refine (composite v2) + selfcomp repair
+python pipeline_independent.py    # refine (design score) + selfcomp repair
 python select_deliverable.py      # diversity Top-K deliverable
 ```
 
@@ -97,7 +97,7 @@ python select_deliverable.py      # diversity Top-K deliverable
   **S3 was used as a development set — the blind test is wet-lab.**
 - RNA-FM fine-tuning and the learned oracle v0 head were tried and
   **closed as negative results** (see docs/).
-- composite v2 = design objective (externally validated components), not
+- design score = design objective (externally validated components), not
   an absolute expression prediction.
 
 ## License
