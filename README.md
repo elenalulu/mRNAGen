@@ -43,7 +43,8 @@ no homopolymer run >= 5 nt.
 | 5'UTR model | N1-psi-conditioned MPRA, 366k 5'UTRs, held-out rho = 0.706 | — | — |
 | Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
 | naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
-| CAI (achieved) | **0.95** | 0.84 | 0.82 |
+| CAI / codon-usage preference (achieved) | **0.95** | 0.84 | 0.82 |
+| GC content (achieved) | **0.61** | 0.55 | 0.57 |
 | Manufacturing clean (0 sites, no homopolymers) | **91%** | 0% | 0% |
 | dsRNA risk (longest duplex, bp) | **8.9** | 9.6 | 23.4 |
 | MFE stability (kcal/nt) | n/a\* | -0.35 | -0.64 |
@@ -53,6 +54,8 @@ no homopolymer run >= 5 nt.
 \* MFE is LinearDesign's own optimization objective; we deliberately do
 not optimize it (see honest boundaries below). All scores above are
 computed with our metric stack on each engine's benchmark candidates.
+tRNA adaptation (tAI) is not evaluated — CAI serves as the codon-usage
+preference proxy; computing tAI would require tRNA copy-number data.
 
 ## Repo layout
 
