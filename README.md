@@ -28,6 +28,31 @@ MIT-licensed sequence optimizer, open genome data, and our own
 generator — so all deliverables are commercially redistributable under
 Apache-2.0.
 
+## Comparison with published baselines
+
+Benchmark candidates from GEMORNA (Science 2025) and LinearDesign
+(Nature 2023) were scored with our composite v2 metrics on the same
+14 protein targets; the mRNAGen column is our independent deliverable
+(35 candidates). Higher z_nat / CAI is better; lower selfcomp is better
+(dsRNA risk); "clean" = 0 restriction sites and no homopolymer run >= 5.
+
+| Aspect | mRNAGen (this work) | GEMORNA | LinearDesign |
+|---|---|---|---|
+| Design objective | naturalness + CAI - manufacturing penalties (composite v2) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
+| 5'UTR model | N1-psi-conditioned MPRA, 366k 5'UTRs, held-out rho = 0.706 | — | — |
+| Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
+| naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
+| CAI (achieved) | **0.95** | 0.84 | 0.82 |
+| Manufacturing clean (sites=0 & hp5=0) | **91%** | 0% | 0% |
+| dsRNA risk, selfcomp (bp) | **8.9** | 9.6 | 23.4 |
+| MFE stability (kcal/nt) | n/a\* | -0.35 | -0.64 |
+| Ranking validation | external wet-lab (S3): naturalness rho 0.47-0.91 | own wet-lab (Science 2025) | in-vitro / in-vivo expression |
+| License | Apache-2.0 (commercial use OK) | non-commercial research only | redistribution requires permission |
+
+\* MFE is LinearDesign's own optimization objective; we deliberately do
+not optimize it (see honest boundaries below). All scores above are
+computed with our metric stack on each engine's benchmark candidates.
+
 ## Repo layout
 
 ```
