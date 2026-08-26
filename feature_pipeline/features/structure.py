@@ -9,7 +9,8 @@ Design principles (from mRNA_design_engine_v1_plan.md sec 2.3):
   for long sequences; MFE-structure fallback if pf unavailable.
 
 Environment: runs under python (ViennaRNA python bindings,
-no new dependencies -- anaconda base is used read-only, never pip-installed).
+no new dependencies -- the conda env with ViennaRNA is used read-only,
+never pip-installed).
 """
 import RNA as vrna
 
