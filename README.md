@@ -11,7 +11,7 @@ expression predictor.
 ```
 CDS axis        naturalness (codon-pair, rebuilt from 18,963 human CDS)
               + CAI (human codon-usage)
-              - manufacturing penalties (restriction sites / hp4 / hp5 / GC)
+              - manufacturing penalties (restriction sites / homopolymers / GC)
               => design score, externally validated (S3, mean Spearman ~0.63)
 
 UTR axis        N1-methylpseudouridine-conditioned MPRA model
@@ -33,8 +33,9 @@ Apache-2.0.
 Benchmark candidates from GEMORNA (Science 2025) and LinearDesign
 (Nature 2023) were scored with our design score metrics on the same
 14 protein targets; the mRNAGen column is our independent deliverable
-(35 candidates). Higher z_nat / CAI is better; lower selfcomp is better
-(dsRNA risk); "clean" = 0 restriction sites and no homopolymer run >= 5.
+(35 candidates). Higher z_nat / CAI is better; lower dsRNA risk is better
+(longest near-perfect self-duplex, bp); "clean" = 0 restriction sites and
+no homopolymer run >= 5 nt.
 
 | Aspect | mRNAGen (this work) | GEMORNA | LinearDesign |
 |---|---|---|---|
@@ -43,8 +44,8 @@ Benchmark candidates from GEMORNA (Science 2025) and LinearDesign
 | Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
 | naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
 | CAI (achieved) | **0.95** | 0.84 | 0.82 |
-| Manufacturing clean (sites=0 & hp5=0) | **91%** | 0% | 0% |
-| dsRNA risk, selfcomp (bp) | **8.9** | 9.6 | 23.4 |
+| Manufacturing clean (0 sites, no homopolymers) | **91%** | 0% | 0% |
+| dsRNA risk (longest duplex, bp) | **8.9** | 9.6 | 23.4 |
 | MFE stability (kcal/nt) | n/a\* | -0.35 | -0.64 |
 | Ranking validation | external wet-lab (S3): naturalness rho 0.47-0.91 | own wet-lab (Science 2025) | in-vitro / in-vivo expression |
 | License | Apache-2.0 (commercial use OK) | non-commercial research only | redistribution requires permission |
@@ -58,7 +59,7 @@ computed with our metric stack on each engine's benchmark candidates.
 ```
 *.py                     pipeline scripts (see docs/architecture.md)
 feature_pipeline/        features: codon metrics, structure (ViennaRNA), rules
-models/                  trained weights (scoring z-stats, oracle v0, UTR GBDT)
+models/                  trained weights (scoring z-stats, UTR GBDT, legacy learned models)
 data/proteins/           example target proteins (public sequences)
 data/                    large/upstream data is NOT bundled — see fetch script
 scripts/fetch_upstream_data.sh   download data + benchmark baselines
@@ -86,7 +87,7 @@ PY
 
 # 3. independent deliverable pipeline (fully independent start sources)
 python start_pool.py              # 3-source start pool (dnachisel/native/cai)
-python pipeline_independent.py    # refine (design score) + selfcomp repair
+python pipeline_independent.py    # refine (design score) + self-complementarity repair
 python select_deliverable.py      # diversity Top-K deliverable
 ```
 
@@ -95,8 +96,8 @@ python select_deliverable.py      # diversity Top-K deliverable
 - S3 (GEMORNA Science SI): naturalness is the strongest same-protein
   predictor (Spearman 0.47–0.91; CAI 0.38–0.80; MFE mostly negative).
   **S3 was used as a development set — the blind test is wet-lab.**
-- RNA-FM fine-tuning and the learned oracle v0 head were tried and
-  **closed as negative results** (see docs/).
+- RNA-FM fine-tuning and a learned expression-prediction head were tried
+  and **closed as negative results** (see docs/).
 - design score = design objective (externally validated components), not
   an absolute expression prediction.
 
