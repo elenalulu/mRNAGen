@@ -27,6 +27,11 @@ from refine_t5 import load_env, n_sites, n_hp5
 from naturalness import Scorer
 
 TRNA_CSV = os.path.join(HERE, "data", "gtrnadb_hsapi38_trna_counts.tsv")
+# Optional path to the internal v3 benchmark deliverable (GEMORNA / LD
+# candidates). Not shipped with the repo (upstream-lineage data); set it
+# locally to reproduce the full 3-column comparison table:
+#   V3_TOPK=/path/to/topk_selection.tsv python compare_table.py
+V3_TOPK = os.environ.get("V3_TOPK", "")
 
 # wobble penalty matrix, dos Reis et al. 2004 (tAI)
 # rows = tRNA anticodon base (position 34, 'I' = inosine from A34)
@@ -139,8 +144,19 @@ def main():
     ours = stats(load(os.path.join(HERE, "data", "deliverable",
                                    "independent_topk.tsv")), "seq", t,
                  scorer, trna, wcache)
-    v3 = load(r"D:\WorkBuddy\alphafold-web\rna_platform\mrna_neoantigen"
-              r"\mRNAGen\data\t5\topk_selection.tsv")
+    if not V3_TOPK or not os.path.exists(V3_TOPK):
+        print("[cmp] V3_TOPK not set/not found — printing mRNAGen column only;")
+        print("[cmp] set V3_TOPK to reproduce the 3-column README table.")
+        print(f"{'metric':<15}{'mRNAGen':>10}")
+        for k in ["n", "z_nat", "cai", "gc", "clean_pct", "selfcomp",
+                  "tai", "mfe_per_nt", "paired_frac", "longest_helix",
+                  "open45"]:
+            def f(v):
+                return "-" if v is None else (f"{v:.3f}" if isinstance(v, float)
+                                              else str(v))
+            print(f"{k:<15}{f(ours[k]):>10}")
+        return
+    v3 = load(V3_TOPK)
     gem = stats([r for r in v3 if r["source"] == "gemorna"], "seq", t,
                 scorer, trna, wcache)
     ld = stats([r for r in v3 if r["source"] == "ld"], "seq", t,
