@@ -15,7 +15,7 @@ CDS axis        naturalness (codon-pair, rebuilt from 18,963 human CDS)
               => composite v2, externally validated (S3, mean Spearman ~0.63)
 
 UTR axis        N1-methylpseudouridine-conditioned MPRA model
-              (36.6万 50-nt 5'UTRs, held-out Spearman 0.706)
+              (366k 50-nt 5'UTRs, held-out Spearman 0.706)
 
 Design loop     independent start pool (DNA Chisel MIT + Ensembl native
               CDS + our CAI-max) -> greedy synonymous refinement
@@ -23,9 +23,9 @@ Design loop     independent start pool (DNA Chisel MIT + Ensembl native
               -> diversity Top-K deliverable
 ```
 
-The start pool carries **zero GEMORNA / LinearDesign lineage** — every
-candidate is generated from fully-open sources (MIT tool, open data, our
-own generator), so deliverables are commercially redistributable under
+The start pool is built entirely from fully-open sources — an
+MIT-licensed sequence optimizer, open genome data, and our own
+generator — so all deliverables are commercially redistributable under
 Apache-2.0.
 
 ## Repo layout
@@ -59,7 +59,7 @@ seq = "ATGGAA..."   # your CDS (DNA, multiple of 3)
 print("composite v2 = %.2f" % composite(seq, table, codon_coef, models)[0])
 PY
 
-# 3. independent deliverable pipeline (no GEMORNA/LD lineage)
+# 3. independent deliverable pipeline (fully independent start sources)
 python start_pool.py              # 3-source start pool (dnachisel/native/cai)
 python pipeline_independent.py    # refine (composite v2) + selfcomp repair
 python select_deliverable.py      # diversity Top-K deliverable
