@@ -15,10 +15,10 @@ outside [0.20, 0.80]; any homopolymer run >= 5.
 
 Inputs:
   github/LinearDesign-main/ld_outputs/*.txt  (start candidates, per lambda)
-  mRNAGen/models/oracle_v0_*.joblib          (oracle v0 heads)
+  models/oracle_v0_*.joblib          (oracle v0 heads)
   wu2019 per-codon coefficients              (opt features)
-Run: D:/anaconda/python.exe mRNAGen/refine_t5.py [--demo]
-Output: mRNAGen/data/t5/refined_candidates.tsv + m2_summary.tsv
+Run: python refine_t5.py [--demo]
+Output: data/t5/refined_candidates.tsv + m2_summary.tsv
 """
 import csv
 import glob

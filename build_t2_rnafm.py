@@ -10,8 +10,8 @@ Scope: genes carrying at least one decay label (the M1 target is the decay
 head; expr head v0 already passed its gate).
 
 Incremental save every 100 genes (npy matrix + gene id list).
-Run: D:/anaconda/python.exe -u mRNAGen/build_t2_rnafm.py
-Out: mRNAGen/data/t2/t2_rnafm500.npz  (gene_ids + [n, 640] matrix)
+Run: python -u build_t2_rnafm.py
+Out: data/t2/t2_rnafm500.npz  (gene_ids + [n, 640] matrix)
 """
 import csv
 import os

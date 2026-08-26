@@ -20,3 +20,7 @@ rnafm_ft/
 # notebooks / scratch
 *.ipynb_checkpoints/
 scratch/
+
+# pipeline intermediates / logs
+data/deliverable/*.log
+data/deliverable/dnachisel_candidates.tsv

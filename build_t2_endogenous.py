@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """T2-1: assemble endogenous human CDS x protein abundance weak supervision.
 
-Sources (all downloaded to mRNAGen/data/t2/):
+Sources (all downloaded to data/t2/):
   - Homo_sapiens.GRCh38.cds.all.fa.gz   (Ensembl release 115; ID = ENST)
   - Homo_sapiens.GRCh38.pep.all.fa.gz   (Ensembl release 115; ENSP -> ENST bridge)
   - paxdb_human_whole_organism.tsv      (PaxDb v6 whole-organism integrated,
@@ -10,11 +10,11 @@ Sources (all downloaded to mRNAGen/data/t2/):
 
 Join chain: PaxDb ENSP -> (pep header) ENST + gene -> (CDS fasta) CDS seq.
 
-Output: mRNAGen/data/t2/t2_endogenous_cds_abundance.tsv
+Output: data/t2/t2_endogenous_cds_abundance.tsv
   ensp / enst / gene / gene_symbol / biotype / cds_len / abundance_ppm /
   rank / cds_sequence (DNA, T alphabet)
 
-Run: D:/anaconda/python.exe mRNAGen/build_t2_endogenous.py
+Run: python build_t2_endogenous.py
 """
 import csv
 import gzip

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """T3 pipeline unit + integration tests. Run:
 
-  D:/anaconda/python.exe feature_pipeline/tests/test_featurize.py
+  python feature_pipeline/tests/test_featurize.py
 """
 import os
 import sys

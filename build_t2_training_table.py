@@ -10,7 +10,7 @@ Inputs (all local, see data/t2/):
   - wu2019_elifescience/elife-45396-fig1-data2.csv
       per-codon stability coefficients, 61 sense codons x 6 cell contexts
 
-Output: mRNAGen/data/t2/t2_training_table.tsv
+Output: data/t2/t2_training_table.tsv
   meta      : gene (ENSG), ensp, gene_symbol, cds_len
   labels    : abundance_ppm, decay_{ctx} x 5 contexts (K562-ORFome dropped:
               ORFome assays are reporter-construct based, keep endogenous +
@@ -18,7 +18,7 @@ Output: mRNAGen/data/t2/t2_training_table.tsv
   features  : codon optimality scores opt_{ctx} x 6 (mean Wu coefficient over
               the CDS's sense codons), cai, gc_global, gc3, enc
 
-Run: D:/anaconda/python.exe mRNAGen/build_t2_training_table.py
+Run: python build_t2_training_table.py
 """
 import csv
 import os

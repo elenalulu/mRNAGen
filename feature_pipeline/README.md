@@ -3,19 +3,19 @@
 CDS 序列 → 41 维特征 TSV。输入支持 FASTA 与 LinearDesign λ-grid 输出（T1 产物）双格式，
 输出直接喂 Oracle v0（GBDT 排序）。
 
-## 运行（必须用 D:/anaconda/python.exe——ViennaRNA 在里面）
+## 运行（必须用 python——ViennaRNA 在里面）
 
 ```bash
 # LinearDesign T1 输出（scp 回来的 lineardesign_output.txt）
-D:/anaconda/python.exe feature_pipeline/featurize.py \
+python feature_pipeline/featurize.py \
     --in github/LinearDesign-main/lineardesign_output.txt \
     --out feature_pipeline/data/ld_baseline_features.tsv --ld-check
 
 # 普通 FASTA（候选池）
-D:/anaconda/python.exe feature_pipeline/featurize.py --in candidates.fasta --out features.tsv
+python feature_pipeline/featurize.py --in candidates.fasta --out features.tsv
 
 # 单元 + 集成测试（17 项）
-D:/anaconda/python.exe feature_pipeline/tests/test_featurize.py
+python feature_pipeline/tests/test_featurize.py
 ```
 
 `--fast` 跳过 partition function 与自互补扫描（调试用）；`--ld-check` 打印与
@@ -52,9 +52,8 @@ LinearDesign 自报值的交叉验证表。
 
 ## 环境铁律
 
-- 只读使用 D:/anaconda（ViennaRNA 绑定），**绝不 pip install 进基环境**
-- 新依赖（如 LightGBM，T4 用）一律装 `D:/WorkBuddy/home/binaries/python/envs/` 隔离 venv，
-  经子进程调用本管线产物（TSV），与 mhcflurry 桥接同模式
+- 只读使用本机已装 ViennaRNA 的环境（conda env），**绝不 pip install 进基环境**
+- 新依赖一律装隔离 venv，经子进程调用本管线产物（TSV），与 mhcflurry 桥接同模式
 
 ## 下游（T4 衔接）
 

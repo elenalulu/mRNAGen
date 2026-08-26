@@ -31,7 +31,7 @@ Outputs (consumed by select_topk.py via the *_sc preference chain):
   data/t5/structure_posthoc_gemorna_sc.tsv   recomputed (GEMORNA starts)
   data/t5/repair_selfcomp_report.tsv          per-candidate deltas
 
-Run: D:/anaconda/python.exe mRNAGen/repair_selfcomp.py
+Run: python repair_selfcomp.py
 """
 import csv
 import os

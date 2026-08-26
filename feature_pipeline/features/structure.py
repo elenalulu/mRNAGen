@@ -8,7 +8,7 @@ Design principles (from mRNA_design_engine_v1_plan.md sec 2.3):
 - Ensemble (partition function) features where affordable; windowed fallback
   for long sequences; MFE-structure fallback if pf unavailable.
 
-Environment: runs under D:/anaconda/python.exe (ViennaRNA python bindings,
+Environment: runs under python (ViennaRNA python bindings,
 no new dependencies -- anaconda base is used read-only, never pip-installed).
 """
 import RNA as vrna

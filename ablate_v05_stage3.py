@@ -6,7 +6,7 @@ Configs (same 5-fold CV Spearman protocol as stage 2):
   v0+emb(651)     v0 + 640-dim RNA-FM mean-pooled embedding (500nt 5' trunc)
   v0+st+emb(656)  everything
 
-Run: D:/anaconda/python.exe -u mRNAGen/ablate_v05_stage3.py
+Run: python -u ablate_v05_stage3.py
 """
 import os
 

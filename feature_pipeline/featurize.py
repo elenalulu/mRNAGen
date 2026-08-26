@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """T3 feature pipeline CLI: FASTA or LinearDesign output -> feature TSV.
 
-Usage (MUST run under D:/anaconda/python.exe -- it has ViennaRNA):
+Usage (MUST run under python -- it has ViennaRNA):
 
-  D:/anaconda/python.exe featurize.py --in lineardesign_output.txt \
+  python featurize.py --in lineardesign_output.txt \
       --out features.tsv --ld-check
 
-  D:/anaconda/python.exe featurize.py --in candidates.fasta --out features.tsv
+  python featurize.py --in candidates.fasta --out features.tsv
 
 Input auto-detection: file containing '@@PROTEIN' -> LinearDesign lambda-grid
 dump (T1 output, scp'd from the GPU box); file with '>' headers -> FASTA.

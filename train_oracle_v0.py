@@ -4,7 +4,7 @@
 
 Design (mRNA_design_engine_v1_plan.md sec 3):
   v0 = engineered features + histogram gradient boosting (sklearn's
-  LightGBM port -- zero new dependencies, runs read-only on D:/anaconda).
+  LightGBM port -- zero new dependencies, runs read-only on the conda env with ViennaRNA).
 
 Heads (one model each, 5-fold CV, Spearman on held-out raw labels):
   expr        : log10(PaxDb protein abundance + eps)
@@ -18,7 +18,7 @@ Extra honesty checks:
   - self-play isolation: training table contains ONLY endogenous genes
     (no LinearDesign/GEMORNA candidates), per plan sec 2.2
 
-Run: D:/anaconda/python.exe mRNAGen/train_oracle_v0.py
+Run: python train_oracle_v0.py
 """
 import os
 import sys

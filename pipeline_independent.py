@@ -11,9 +11,8 @@ our CAI-max starts; see start_pool.py) and, for every start, runs:
 Output: data/deliverable/independent_candidates.tsv
 Incremental and crash-proof (one row saved per start).
 
-Run with the dnachisel venv (has pandas/numpy/joblib/sklearn):
-  D:/WorkBuddy/home/binaries/python/envs/dnachisel/Scripts/python.exe \
-      pipeline_independent.py
+Run with the python of your dnachisel venv (has pandas/numpy/joblib/sklearn):
+  python pipeline_independent.py
 """
 import csv
 import os

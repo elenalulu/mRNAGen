@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 """Batch featurizer: LD ld_outputs/ + GEMORNA output -> merged feature TSVs.
 
-Usage (D:/anaconda/python.exe has ViennaRNA):
+Usage (python has ViennaRNA):
 
-  D:/anaconda/python.exe mRNAGen/featurize_all.py \
+  python featurize_all.py \
       --ld-dir github/LinearDesign-main/ld_outputs \
       --gemorna github/GEMORNA/gemorna_output.txt \
-      --out-dir mRNAGen/data
+      --out-dir data
 
 Outputs:
   <out-dir>/ld_benchmark_features.tsv    (LD lambda-scan, one row per

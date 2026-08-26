@@ -9,9 +9,8 @@ Start lineage: 100% independent of GEMORNA / LinearDesign tools.
       -> our greedy refinement (composite v2, 25 rounds)
       -> our surgical selfcomp repair (Plan C)
 
-Run with the isolated venv that has dnachisel:
-  D:/WorkBuddy/home/binaries/python/envs/dnachisel/Scripts/python.exe \
-      pipeline_dnachisel.py
+Run with the python of your dnachisel venv (pip install dnachisel):
+  python pipeline_dnachisel.py
 
 Outputs (incremental, crash-proof):
   data/deliverable/dnachisel_candidates.tsv
@@ -35,8 +34,9 @@ from repair_selfcomp import (aa_codon_map, repair as sc_repair,  # noqa: E402
 OUT = os.path.join(HERE, "data", "deliverable")
 os.makedirs(OUT, exist_ok=True)
 
-TOPK_V3 = (r"D:\WorkBuddy\alphafold-web\rna_platform\mrna_neoantigen"
-           r"\mRNAGen\data\t5\topk_selection.tsv")
+# optional path to a previous deliverable (e.g. a v3 baseline) for
+# comparison; when unset the v3_best/gap_v3 columns are empty
+TOPK_V3 = os.environ.get("MRNAGEN_V3_TOPK", "")
 
 SITES = ["GGTCTC", "GAGACC", "CGTCTC", "GAGACG", "GAATTC",
          "CTCGAG", "GGATCC", "GCGGCCGC"]
@@ -113,7 +113,7 @@ def save_results(out):
 
 def v3_best():
     best = {}
-    if not os.path.exists(TOPK_V3):
+    if not TOPK_V3 or not os.path.exists(TOPK_V3):
         return best
     with open(TOPK_V3, encoding="utf-8") as f:
         for r in csv.DictReader(f, delimiter="\t"):

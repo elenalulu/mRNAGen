@@ -16,9 +16,8 @@ Three fully-clean start sources per protein:
 Output: data/deliverable/start_pool.tsv  (protein, source, seq)
 Incremental and crash-proof (one row saved per start).
 
-Requires the dnachisel venv for the DNA Chisel arm:
-  D:/WorkBuddy/home/binaries/python/envs/dnachisel/Scripts/python.exe \
-      start_pool.py
+Requires dnachisel installed (pip install dnachisel) for the DNA Chisel arm:
+  python start_pool.py
 """
 import csv
 import os

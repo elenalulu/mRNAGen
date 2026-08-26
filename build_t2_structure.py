@@ -12,8 +12,8 @@ Global MFE/helix stats intentionally skipped (too slow for 19k genes);
 they stay in the candidate-evaluation path (T3 pipeline).
 
 Incremental save every 500 genes (crash-safe).
-Run: D:/anaconda/python.exe -u mRNAGen/build_t2_structure.py
-Out: mRNAGen/data/t2/t2_structure_features.tsv
+Run: python -u build_t2_structure.py
+Out: data/t2/t2_structure_features.tsv
 """
 import csv
 import os
