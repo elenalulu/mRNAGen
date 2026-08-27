@@ -11,8 +11,10 @@ expression predictor.
 ```
 CDS axis        naturalness (codon-pair, rebuilt from 18,963 human CDS)
               + CAI (human codon-usage)
+              + tAI (GtRNAdb Hsapi38 copy numbers)
               - manufacturing penalties (restriction sites / homopolymers / GC)
-              => design score, externally validated (S3, mean Spearman ~0.63)
+              => design score v2.5, externally validated (S3 wet-lab,
+                 pooled Spearman 0.66; see ablation below)
 
 UTR axis        N1-methylpseudouridine-conditioned MPRA model
               (366k 50-nt 5'UTRs, held-out Spearman 0.706)
@@ -95,29 +97,42 @@ no homopolymer run >= 5 nt.
 
 | Aspect | mRNAGen (this work) | GEMORNA | LinearDesign |
 |---|---|---|---|
-| Design objective | naturalness + CAI - manufacturing penalties (design score) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
+| Design objective | naturalness + CAI + tAI - manufacturing penalties (design score v2.5) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
 | 5'UTR model | N1-psi-conditioned MPRA, 366k 5'UTRs, held-out rho = 0.706 | — | — |
 | Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
-| naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
+| naturalness z (achieved) | **2.70** | 1.35 | 0.31 |
 | CAI / codon-usage preference (achieved) | **0.95** | 0.84 | 0.82 |
-| GC content (achieved) | **0.61** | 0.55 | 0.57 |
-| Manufacturing clean (0 sites, no homopolymers) | **91%** | 0% | 0% |
-| dsRNA risk (longest duplex, bp) | **8.9** | 9.6 | 23.4 |
+| GC content (achieved) | **0.60** | 0.55 | 0.57 |
+| Manufacturing clean (0 sites, no homopolymers) | **94%** | 0% | 0% |
+| dsRNA risk (longest duplex, bp) | **9.5** | 9.6 | 23.4 |
 | MFE stability (kcal/nt) | n/a\* | -0.35 | -0.64 |
-| Ranking validation | external wet-lab (S3): naturalness rho 0.47-0.91 | own wet-lab (Science 2025) | in-vitro / in-vivo expression |
+| Ranking validation | external wet-lab (S3): pooled Spearman vs expression 0.58 (nat+CAI) -> **0.66 (+tAI)**, ablation below | own wet-lab (Science 2025) | in-vitro / in-vivo expression |
 | License | Apache-2.0 (commercial use OK) | non-commercial research only | redistribution requires permission |
 
 \* MFE is LinearDesign's own optimization objective; we deliberately do
 not optimize it (see honest boundaries below). All scores above are
 computed with our metric stack on each engine's benchmark candidates.
-tRNA adaptation (tAI) is not evaluated — CAI serves as the codon-usage
-preference proxy; computing tAI would require tRNA copy-number data.
+tRNA adaptation (tAI) uses GtRNAdb Hsapi38 copy numbers with the
+dos Reis et al. 2004 wobble matrix.
+
+### Why tAI joined the objective (S3 wet-lab ablation)
+
+On the 67 wet-lab-measured sequences of the four GEMORNA Science S3
+datasets, adding a globally calibrated tAI term to the previous
+naturalness+CAI objective lifts pooled within-protein Spearman against
+measured expression from 0.583 to 0.656 at weight 1.0, with no dataset
+regressing; leave-one-dataset-out selection confirms robustness. The
+grid optimum (0.708) sits at higher weights but was not adopted to
+avoid fitting weights on the evaluation labels. AUG accessibility and
+start-region Delta-G showed no independent ranking signal on S3 and are
+reported as display metrics instead.
 
 ## External validation (honest boundaries)
 
 - S3 (GEMORNA Science SI): naturalness is the strongest same-protein
   predictor (Spearman 0.47–0.91; CAI 0.38–0.80; MFE mostly negative).
-  **S3 was used as a development set — the blind test is wet-lab.**
+  **S3 was used as a development set — including the tAI weighting —
+  the blind test is wet-lab.**
 - RNA-FM fine-tuning and a learned expression-prediction head were tried
   and **closed as negative results** (see docs/).
 - design score = design objective (externally validated components), not

@@ -165,12 +165,20 @@ def feature_vec(cds, table, codon_coef):
 
 
 def score_batch(seqs, table, codon_coef, models):
-    """Batch scoring. Design score (default, externally validated on
-    GEMORNA Science S3, 2026-08-25):
+    """Batch scoring.
+
+    Default (design score v2.5, 2026-08-27): on top of v2's
         z_global(naturalness) + z_global(CAI) - manufacturing penalties
+    we add a globally calibrated +1.0*z_global(tAI). Empirical basis:
+    GEMORNA Science S3 wet-lab ablation (67 seqs, 4 datasets) -- pooled
+    Spearman vs measured expression rises 0.583 -> 0.656 with no dataset
+    regressing; leave-one-dataset-out confirms robustness (grid optimum
+    0.708 at w=(1.0, 2.25)). tAI calibration lives in
+    tai_scorer.build_tai_stats() (corpus mean/std, 18,963 endogenous CDS).
     The oracle expr/decay heads proved non-transferable within-protein
     (negative transfer on S3) and are returned for diagnostics only.
-    Set COMPOSITE=v1 to restore the original oracle composite."""
+    Set COMPOSITE=v2 to restore the naturalness+CAI-only objective,
+    COMPOSITE=v1 for the original oracle composite."""
     X = np.array([feature_vec(s, table, codon_coef) for s in seqs])
     expr = models["expr"].predict(X)
     stab = np.mean([models[h].predict(X) for h in DECAY_HEADS], axis=0)
@@ -179,14 +187,21 @@ def score_batch(seqs, table, codon_coef, models):
         + 5.0 * (max(0.0, (s.count("G") + s.count("C")) / len(s) - GC_HI)
                  + max(0.0, GC_LO - (s.count("G") + s.count("C")) / len(s)))
         for s in seqs])
-    if os.environ.get("COMPOSITE", "v2") == "v2":
+    mode = os.environ.get("COMPOSITE", "v2.5")
+    if mode in ("v2", "v2.5"):
         from naturalness import Scorer
         if not hasattr(score_batch, "_scorer"):
             score_batch._scorer = Scorer()
         sc = score_batch._scorer
         z_nat = sc.z_nat(seqs)
         z_cai = sc.z_cai([table.cai(s.replace("T", "U")) for s in seqs])
-        return z_nat + z_cai - pens, expr, stab
+        out = z_nat + z_cai - pens
+        if mode == "v2.5":
+            from tai_scorer import TaiScorer
+            if not hasattr(score_batch, "_tai"):
+                score_batch._tai = TaiScorer()
+            out = out + 1.0 * score_batch._tai.z_tai(seqs)
+        return out, expr, stab
     return W["expr"] * expr + W["stab"] * stab - pens, expr, stab
 
 
