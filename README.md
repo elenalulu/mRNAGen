@@ -28,35 +28,6 @@ MIT-licensed sequence optimizer, open genome data, and our own
 generator — so all deliverables are commercially redistributable under
 Apache-2.0.
 
-## Comparison with published baselines
-
-Benchmark candidates from GEMORNA (Science 2025) and LinearDesign
-(Nature 2023) were scored with our design score metrics on the same
-14 protein targets; the mRNAGen column is our independent deliverable
-(35 candidates). Higher z_nat / CAI is better; lower dsRNA risk is better
-(longest near-perfect self-duplex, bp); "clean" = 0 restriction sites and
-no homopolymer run >= 5 nt.
-
-| Aspect | mRNAGen (this work) | GEMORNA | LinearDesign |
-|---|---|---|---|
-| Design objective | naturalness + CAI - manufacturing penalties (design score) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
-| 5'UTR model | N1-psi-conditioned MPRA, 366k 5'UTRs, held-out rho = 0.706 | — | — |
-| Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
-| naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
-| CAI / codon-usage preference (achieved) | **0.95** | 0.84 | 0.82 |
-| GC content (achieved) | **0.61** | 0.55 | 0.57 |
-| Manufacturing clean (0 sites, no homopolymers) | **91%** | 0% | 0% |
-| dsRNA risk (longest duplex, bp) | **8.9** | 9.6 | 23.4 |
-| MFE stability (kcal/nt) | n/a\* | -0.35 | -0.64 |
-| Ranking validation | external wet-lab (S3): naturalness rho 0.47-0.91 | own wet-lab (Science 2025) | in-vitro / in-vivo expression |
-| License | Apache-2.0 (commercial use OK) | non-commercial research only | redistribution requires permission |
-
-\* MFE is LinearDesign's own optimization objective; we deliberately do
-not optimize it (see honest boundaries below). All scores above are
-computed with our metric stack on each engine's benchmark candidates.
-tRNA adaptation (tAI) is not evaluated — CAI serves as the codon-usage
-preference proxy; computing tAI would require tRNA copy-number data.
-
 ## Hardware requirements
 
 **CPU-only — no GPU needed.** Every component runs on a regular desktop/laptop CPU:
@@ -100,6 +71,35 @@ python start_pool.py              # 3-source start pool (dnachisel/native/cai)
 python pipeline_independent.py    # refine (design score) + self-complementarity repair
 python select_deliverable.py      # diversity Top-K deliverable
 ```
+
+## Comparison with published baselines
+
+Benchmark candidates from GEMORNA (Science 2025) and LinearDesign
+(Nature 2023) were scored with our design score metrics on the same
+14 protein targets; the mRNAGen column is our independent deliverable
+(35 candidates). Higher z_nat / CAI is better; lower dsRNA risk is better
+(longest near-perfect self-duplex, bp); "clean" = 0 restriction sites and
+no homopolymer run >= 5 nt.
+
+| Aspect | mRNAGen (this work) | GEMORNA | LinearDesign |
+|---|---|---|---|
+| Design objective | naturalness + CAI - manufacturing penalties (design score) | codon-pair naturalness + secondary structure | CAI + MFE (lambda-tunable) |
+| 5'UTR model | N1-psi-conditioned MPRA, 366k 5'UTRs, held-out rho = 0.706 | — | — |
+| Start lineage | fully open (DNA Chisel MIT + Ensembl + own CAI-max) | tool-generated | lambda-scan |
+| naturalness z (achieved) | **2.76** | 1.35 | 0.31 |
+| CAI / codon-usage preference (achieved) | **0.95** | 0.84 | 0.82 |
+| GC content (achieved) | **0.61** | 0.55 | 0.57 |
+| Manufacturing clean (0 sites, no homopolymers) | **91%** | 0% | 0% |
+| dsRNA risk (longest duplex, bp) | **8.9** | 9.6 | 23.4 |
+| MFE stability (kcal/nt) | n/a\* | -0.35 | -0.64 |
+| Ranking validation | external wet-lab (S3): naturalness rho 0.47-0.91 | own wet-lab (Science 2025) | in-vitro / in-vivo expression |
+| License | Apache-2.0 (commercial use OK) | non-commercial research only | redistribution requires permission |
+
+\* MFE is LinearDesign's own optimization objective; we deliberately do
+not optimize it (see honest boundaries below). All scores above are
+computed with our metric stack on each engine's benchmark candidates.
+tRNA adaptation (tAI) is not evaluated — CAI serves as the codon-usage
+preference proxy; computing tAI would require tRNA copy-number data.
 
 ## External validation (honest boundaries)
 
