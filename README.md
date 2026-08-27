@@ -57,6 +57,25 @@ computed with our metric stack on each engine's benchmark candidates.
 tRNA adaptation (tAI) is not evaluated — CAI serves as the codon-usage
 preference proxy; computing tAI would require tRNA copy-number data.
 
+## Hardware requirements
+
+**CPU-only — no GPU needed.** Every component runs on a regular desktop/laptop CPU:
+
+| Stage | Compute | Notes |
+|---|---|---|
+| Start-pool generation (DNA Chisel + CAI-max) | CPU | minutes for 14 proteins |
+| Greedy refinement (design score) | CPU | the dominant cost; long proteins (>2000 aa) take ~10-25 min each |
+| Self-complementarity repair | CPU | seconds per candidate |
+| Scoring (composite / UTR) | CPU | single-sequence scoring < 1 s |
+| ViennaRNA structure features (optional) | CPU | used only for full structure profiling |
+
+- Full pipeline run (35 starts → Top-K deliverable) takes **~1.5-2 h on a
+  typical desktop CPU** and uses < 4 GB RAM.
+- Shipped models are small GBDT / joblib weights (MB-scale) — no GPU
+  training or inference is involved.
+- Python 3.10+; the only non-pip system dependency is ViennaRNA
+  (conda-forge).
+
 ## Quick start
 
 ```bash
