@@ -70,7 +70,19 @@ PY
 python start_pool.py              # 3-source start pool (dnachisel/native/cai)
 python pipeline_independent.py    # refine (design score) + self-complementarity repair
 python select_deliverable.py      # diversity Top-K deliverable
+
+# 4. 12-metric per-candidate scorecard (appends columns to the Top-K TSV)
+python scorecard.py
 ```
+
+The scorecard reports, per candidate: expression signal z (naturalness +
+CAI, externally validated), translation-efficiency and initiation
+composites (heuristic), tAI, codon-pair bias, GC window profile, dsRNA
+duplex risk, start-region Delta-G / AUG accessibility / pairing
+probability (ViennaRNA), a decay-model stability value (weak,
+cross-gene caveat), and a rule-based immune-risk flag (unvalidated).
+Items labelled heuristic or unvalidated are component proxies, not
+experimental predictions.
 
 ## Comparison with published baselines
 
